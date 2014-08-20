@@ -31,10 +31,10 @@ class Cherry_Testimonials_Registration {
 	 */
 	public function __construct() {
 
-		// Add the testimonials post type.
+		// Adds the testimonials post type.
 		add_action( 'init', array( $this, 'register' ) );
 
-		// Remove rewrite rules and then recreate rewrite rules.
+		// Removes rewrite rules and then recreate rewrite rules.
 		add_action( 'init', array( $this, 'rewrite_rules' ) );
 	}
 

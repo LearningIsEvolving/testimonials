@@ -109,9 +109,11 @@ class Cherry_Testimonials {
 	 * @since 1.0.0
 	 */
 	function includes() {
-		require_once( CHERRY_TESTI_DIR . 'inc/class-cherry-testimonials-registration.php'  );
-		require_once( CHERRY_TESTI_DIR . 'inc/class-cherry-testimonials-page-template.php' );
-		require_once( CHERRY_TESTI_DIR . 'inc/class-cherry-testimonials-shortcode.php' );
+		require_once( trailingslashit( CHERRY_TESTI_DIR ) . 'public/includes/class-cherry-testimonials-registration.php'  );
+		require_once( trailingslashit( CHERRY_TESTI_DIR ) . 'public/includes/class-cherry-testimonials-page-template.php' );
+		require_once( trailingslashit( CHERRY_TESTI_DIR ) . 'public/includes/class-cherry-testimonials-data.php' );
+		require_once( trailingslashit( CHERRY_TESTI_DIR ) . 'public/includes/class-cherry-testimonials-shortcode.php' );
+		require_once( trailingslashit( CHERRY_TESTI_DIR ) . 'public/includes/class-cherry-testimonials-widget.php' );
 	}
 
 	/**
@@ -131,7 +133,7 @@ class Cherry_Testimonials {
 	function admin() {
 
 		if ( is_admin() ) {
-			require_once( CHERRY_TESTI_DIR . 'admin/class-cherry-testimonials-admin.php' );
+			require_once( CHERRY_TESTI_DIR . 'admin/includes/class-cherry-testimonials-admin.php' );
 		}
 	}
 
@@ -141,7 +143,7 @@ class Cherry_Testimonials {
 	 * @since 1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( 'cherry-testimonials', plugins_url( 'assets/css/style.css', __FILE__ ), array(), CHERRY_TESTI_VERSION );
+		wp_enqueue_style( 'cherry-testimonials', plugins_url( 'public/assets/css/style.css', __FILE__ ), array(), CHERRY_TESTI_VERSION );
 	}
 
 	/**

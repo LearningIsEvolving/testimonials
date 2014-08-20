@@ -4,14 +4,26 @@
  *
  */
 
-while ( have_posts() ) : the_post();
+while ( have_posts() ) :
 
-	do_action( 'cherry_post_before' );
+		the_post(); ?>
 
-	do_action( 'cherry_post' );
+		<article <?php cherry_attr( 'post' ); ?>>
 
-	do_action( 'cherry_post_after' );
+			<?php do_action( 'cherry_post_before' );
 
-	do_action( 'cherry_get_comments' );
+			// Display a page title.
+			cherry_the_post_header();
 
-endwhile; ?>
+			$args = array(
+				'id'           => get_the_ID(),
+				'custom_class' => 'testimonials-page-single',
+			);
+			$data = new Cherry_Testimonials_Data;
+			$data->the_testimonials( $args );
+
+			do_action( 'cherry_post_after' ); ?>
+
+		</article>
+
+<?php endwhile; ?>

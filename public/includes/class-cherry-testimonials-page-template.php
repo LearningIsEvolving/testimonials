@@ -110,7 +110,7 @@ class Cherry_Testimonials_Page_Template {
 			return $template;
 		}
 
-		$file = CHERRY_TESTI_DIR . 'templates/' . $page_template_meta;
+		$file = trailingslashit( CHERRY_TESTI_DIR ) . 'templates/' . $page_template_meta;
 
 		// Just to be safe, we check if the file exist first.
 		if ( file_exists( $file ) ) {
@@ -129,7 +129,7 @@ class Cherry_Testimonials_Page_Template {
 		global $post;
 
 		if ( $post->post_type == CHERRY_TESTI_NAME ) {
-			$template = CHERRY_TESTI_DIR . 'templates/single-testimonial.php';
+			$template = trailingslashit( CHERRY_TESTI_DIR ) . 'templates/single-testimonial.php';
 		}
 
 		return $template;

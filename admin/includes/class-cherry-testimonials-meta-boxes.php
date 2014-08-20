@@ -48,6 +48,12 @@ class Cherry_Testimonials_Meta_Boxes {
 			'priority'      => 'core',
 			'callback_args' => array(
 				array(
+					'name' => __( 'Name:', 'cherry-testimonials' ),
+					'desc' => __( "Enter author's name.", 'cherry-testimonials' ),
+					'id'   => 'name',
+					'std'  => '',
+					),
+				array(
 					'name' => __( 'E-mail:', 'cherry-testimonials' ),
 					'desc' => __( 'Enter in an e-mail address.', 'cherry-testimonials' ),
 					'id'   => 'email',
@@ -167,6 +173,16 @@ class Cherry_Testimonials_Meta_Boxes {
 		if ( isset( $_POST[ CHERRY_TESTI_POSTMETA ] ) && !empty( $_POST[ CHERRY_TESTI_POSTMETA ] ) ) {
 
 			foreach ( $_POST[ CHERRY_TESTI_POSTMETA ] as $key => $value ) {
+
+				if ( 'email' == $key ) {
+					$new_meta_value[ $key ] = sanitize_email( $value );
+					continue;
+				}
+
+				if ( 'url' == $key ) {
+					$new_meta_value[ $key ] = esc_url_raw( $value );
+					continue;
+				}
 
 				// Sanitize the user input.
 				$new_meta_value[ $key ] = sanitize_text_field( $value );
