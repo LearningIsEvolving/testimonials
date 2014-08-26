@@ -85,17 +85,13 @@ class Cherry_Testimonials_Admin {
 	 * @return array
 	 */
 	public function edit_testimonial_columns( $post_columns ) {
-		$screen     = get_current_screen();
-		$post_type  = $screen->post_type;
-		$columns    = array();
-		$taxonomies = array();
-
 		// Adds the checkbox column.
 		$columns['cb'] = $post_columns['cb'];
 
 		// Add custom columns and overwrite the 'title' column.
 		$columns['title']       = __( 'Title', 'cherry-testimonials' );
 		$columns['author_name'] = __( 'Author', 'cherry-testimonials' );
+		$columns['date']        = __( 'Date', 'cherry-testimonials' );
 		$columns['thumbnail']   = __( 'Thumbnail', 'cherry-testimonials' );
 
 		// Return the columns.
