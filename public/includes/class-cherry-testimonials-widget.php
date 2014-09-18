@@ -54,7 +54,7 @@ class Cherry_Testimonials_Widget extends WP_Widget {
 		add_action( 'switch_theme', array( $this, 'flush_widget_cache' ) );
 
 		// Changed item template.
-		add_filter( 'cherry_testimonials_item_template', array( $this, 'item_template' ), 9, 2 );
+		// add_filter( 'cherry_testimonials_item_template', array( $this, 'item_template' ), 9, 2 );
 	}
 
 	/**
