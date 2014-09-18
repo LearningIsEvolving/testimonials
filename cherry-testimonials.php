@@ -59,8 +59,8 @@ if ( !class_exists( 'Cherry_Testimonials' ) ) {
 			// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 			// Register activation and deactivation hook.
-			register_activation_hook( __FILE__, array( $this, 'activation'   ) );
-			register_activation_hook( __FILE__, array( $this, 'deactivation' ) );
+			register_activation_hook( __FILE__, array( $this, 'activation'     ) );
+			register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 		}
 
 		/**
