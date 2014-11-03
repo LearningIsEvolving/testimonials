@@ -35,7 +35,7 @@ class Cherry_Testimonials_Registration {
 		add_action( 'init', array( $this, 'register' ) );
 
 		// Removes rewrite rules and then recreate rewrite rules.
-		add_action( 'init', array( $this, 'rewrite_rules' ) );
+		// add_action( 'init', array( $this, 'rewrite_rules' ) );
 	}
 
 	public function rewrite_rules() {

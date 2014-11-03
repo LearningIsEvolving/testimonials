@@ -24,6 +24,8 @@ class Cherry_Testimonials_Data {
 	 */
 	private $query_args = array();
 
+	private $replace_args = array();
+
 	/**
 	 * Sets up our actions/filters.
 	 *
@@ -324,6 +326,16 @@ class Cherry_Testimonials_Data {
 		return $image;
 	}
 
+	public function replace_callback( $matches ) {
+		$key = strtolower( trim( $matches[0], '%%' ) );
+
+		if ( array_key_exists( $key, $this->replace_args ) ) {
+			return $this->replace_args[ $key ];
+		} else {
+			__return_empty_string();
+		}
+	}
+
 	/**
 	 * Get testimonials items.
 	 *
@@ -337,7 +349,7 @@ class Cherry_Testimonials_Data {
 		global $post, $more;
 
 		// Item template.
-		$template = '%%AVATAR%%<blockquote>%%TEXT%% %%AUTHOR%%</blockquote>';
+		$template = $this->get_template_by_name( $args['template'], Cherry_Testimonials_Shortcode::$name );
 
 		/**
 		 * Filters template for testimonials item.
@@ -372,36 +384,25 @@ class Cherry_Testimonials_Data {
 			 * @param string A post content.
 			 * @param object A post object.
 			 */
-			$content = apply_filters( 'cherry_testimonials_content', apply_filters( 'the_content', get_the_content() ), $post );
+			// $content = apply_filters( 'cherry_testimonials_content', apply_filters( 'the_content', get_the_content() ), $post );
+			$content = apply_filters( 'cherry_testimonials_content', get_the_content(), $post );
 			$more    = $real_more;
-			$tpl     = str_replace( '%%TEXT%%', $content, $tpl );
+
+			$author = '<cite class="author" title="' . esc_attr( $name ) . '">';
+			if ( !empty( $url ) ) {
+				$author .= '<a href="' . esc_url( $url ) . '">' . $name . '</a>';
+			} else {
+				$author .= $name;
+			}
+			$author .= '</cite>';
+
+			$this->replace_args['avatar']  = ( true === $args['display_avatar'] ) ? $avatar : '';
+			$this->replace_args['content'] = $content;
+			$this->replace_args['author']  = ( true === $args['display_avatar'] ) ? $author : '';
+
+			$tpl = preg_replace_callback( "/%%.+?%%/", array( $this, 'replace_callback' ), $tpl );
 
 			$output .= '<div id="quote-' . $post_id . '" class="testimonials-item item-' . $count . ( ( $count++ % 2 ) ? ' odd' : ' even' ) . ' clearfix">';
-
-				// Check 'display_avatar' option.
-				if ( true === $args['display_avatar'] ) {
-					$tpl = str_replace( '%%AVATAR%%', $avatar, $tpl );
-				} else {
-					$tpl = str_replace( '%%AVATAR%%', '', $tpl );
-				}
-
-				// Check 'display_author' option.
-				if ( true === $args['display_author'] ) :
-
-					$author = '<footer><cite class="author" title="' . esc_attr( $name ) . '">';
-
-					if ( !empty( $url ) ) {
-						$author .= '<a href="' . esc_url( $url ) . '">' . $name . '</a>';
-					} else {
-						$author .= $name;
-					}
-
-					$author .= '</cite></footer>';
-					$tpl = str_replace( '%%AUTHOR%%', $author, $tpl );
-
-				else :
-					$tpl = str_replace( '%%AUTHOR%%', '', $tpl );
-				endif;
 
 				/**
 				 * Filters testimonails item.
@@ -476,5 +477,56 @@ class Cherry_Testimonials_Data {
 		wp_reset_postdata();
 
 		return $output;
+	}
+
+	/**
+	 * Read template (static).
+	 *
+	 * @since  1.0.0
+	 * @return bool|WP_Error|string - false on failure, stored text on success.
+	 */
+	public static function get_contents( $template ) {
+
+		if ( !function_exists( 'WP_Filesystem' ) ) {
+			include_once( ABSPATH . '/wp-admin/includes/file.php' );
+		}
+
+		WP_Filesystem();
+		global $wp_filesystem;
+
+		if ( !$wp_filesystem->exists( $template ) ) { // Check for existence.
+			return false;
+		}
+
+		// Read the file.
+		$content = $wp_filesystem->get_contents( $template );
+
+		if ( !$content ) {
+			return new WP_Error( 'reading_error', 'Error when reading file' ); // Return error object.
+		}
+
+		return $content;
+	}
+
+	public function get_template_by_name( $template, $shortcode ) {
+		$file    = '';
+		$subdir  = 'templates/shortcodes/' . $shortcode . '/' . $template;
+		$default = CHERRY_TESTI_DIR . 'templates/shortcodes/' . $shortcode . '/default.tmpl';
+
+		$content = apply_filters( 'cherry_testimonials_fallback_template', '%%avatar%%<blockquote>%%content%% %%author%%</blockquote>' );
+
+		if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $subdir ) ) {
+			$file = trailingslashit( get_stylesheet_directory() ) . $subdir;
+		} elseif ( file_exists( CHERRY_TESTI_DIR . $subdir ) ) {
+			$file = CHERRY_TESTI_DIR . $subdir;
+		} else {
+			$file = $default;
+		}
+
+		if ( !empty( $file ) ) {
+			$content = self::get_contents( $file );
+		}
+
+		return $content;
 	}
 }
