@@ -69,6 +69,7 @@ class Cherry_Testimonials_Data {
 			'before_title'   => '<h2>',
 			'after_title'    => '</h2>',
 			'pager'          => false,
+			'template'       => 'default.tmpl',
 			'custom_class'   => '',
 		), $args );
 
@@ -388,13 +389,13 @@ class Cherry_Testimonials_Data {
 			$content = apply_filters( 'cherry_testimonials_content', get_the_content(), $post );
 			$more    = $real_more;
 
-			$author = '<cite class="author" title="' . esc_attr( $name ) . '">';
+			$author = '<footer><cite class="author" title="' . esc_attr( $name ) . '">';
 			if ( !empty( $url ) ) {
 				$author .= '<a href="' . esc_url( $url ) . '">' . $name . '</a>';
 			} else {
 				$author .= $name;
 			}
-			$author .= '</cite>';
+			$author .= '</cite></footer>';
 
 			$this->replace_args['avatar']  = ( true === $args['display_avatar'] ) ? $avatar : '';
 			$this->replace_args['content'] = $content;

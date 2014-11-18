@@ -179,7 +179,6 @@ class Cherry_Testimonials_Shortcode extends Cherry_Testimonials_Data {
 			'display_avatar' => true,
 			'size'           => 50,
 			'echo'           => false,
-			'template'       => 'default.tmpl',
 			'custom_class'   => '',
 		);
 
