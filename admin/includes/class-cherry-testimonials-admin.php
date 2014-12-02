@@ -26,7 +26,6 @@ class Cherry_Testimonials_Admin {
 	 * @return void
 	 */
 	public function __construct() {
-
 		// Load post meta boxes on the post editing screen.
 		add_action( 'load-post.php',     array( $this, 'load_post_meta_boxes' ) );
 		add_action( 'load-post-new.php', array( $this, 'load_post_meta_boxes' ) );
@@ -45,7 +44,11 @@ class Cherry_Testimonials_Admin {
 	 * @since 1.0.0
 	 */
 	public function load_post_meta_boxes() {
-		require_once( trailingslashit( CHERRY_TESTI_DIR ) . 'admin/includes/class-cherry-testimonials-meta-boxes.php' );
+		$screen = get_current_screen();
+
+		if ( !empty( $screen->post_type ) && 'testimonial' === $screen->post_type ) {
+			require_once( trailingslashit( CHERRY_TESTI_DIR ) . 'admin/includes/class-cherry-testimonials-meta-boxes.php' );
+		}
 	}
 
 	/**

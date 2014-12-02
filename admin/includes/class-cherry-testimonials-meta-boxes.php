@@ -25,7 +25,7 @@ class Cherry_Testimonials_Meta_Boxes {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+		add_action( 'add_meta_boxes_' . CHERRY_TESTI_NAME, array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post',      array( $this, 'save_post'      ), 10, 2 );
 	}
 
