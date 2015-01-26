@@ -45,7 +45,7 @@ class Cherry_Testimonials_Shortcode extends Cherry_Testimonials_Data {
 		// Register shortcode and add it to the dialog.
 		add_filter( 'su/data/shortcodes', array( $this, 'shortcodes' ) );
 
-		add_filter( 'cherry_editor_target_dirs', array( $this, 'add_target_dir' ), 11 );
+		add_filter( 'cherry_templater_target_dirs', array( $this, 'add_target_dir' ), 11 );
 	}
 
 	/**

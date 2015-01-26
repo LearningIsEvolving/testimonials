@@ -110,7 +110,7 @@ class Cherry_Testimonials_Meta_Boxes {
 			$field_std  = ( isset( $field['std'] ) ) ? $field['std'] : '';
 
 			// Get current post meta data.
-			$post_meta  = get_post_meta( $post->ID, CHERRY_TESTI_POSTMETA, true );
+			$post_meta = get_post_meta( $post->ID, CHERRY_TESTI_POSTMETA, true );
 
 			if ( !empty( $post_meta ) && isset( $post_meta[ $field['id'] ] ) ) {
 				$field_value = $post_meta[ $field['id'] ];
