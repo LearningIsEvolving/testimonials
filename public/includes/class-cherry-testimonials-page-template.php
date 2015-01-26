@@ -53,6 +53,8 @@ class Cherry_Testimonials_Page_Template {
 		// Add a filter to load a custom template for a given post.
 		add_filter( 'single_template', array( $this, 'get_single_template' ) );
 
+		add_filter( 'cherry_display_sidebar', array( $this, 'display_sidebar' ), 10, 2 );
+
 		// Add your templates to this array.
 		$this->templates = array(
 			'template-testimonials.php' => __( 'Testimonials', 'cherry-testimonials' ),
@@ -133,6 +135,28 @@ class Cherry_Testimonials_Page_Template {
 		}
 
 		return $template;
+	}
+
+	/**
+	 * Hide a `sidebar-main` on the page template `template-testimonials.php`.
+	 *
+	 * @since  1.0.0
+	 * @param  bool   $display
+	 * @param  string $id
+	 * @return bool
+	 */
+	public function display_sidebar( $display, $id ) {
+		$template = get_page_template_slug( get_the_ID() );
+
+		if ( 'template-testimonials.php' != $template ) {
+			return $display;
+		}
+
+		if ( 'sidebar-main' == $id ) {
+			return false;
+		}
+
+		return $display;
 	}
 
 	/**

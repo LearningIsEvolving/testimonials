@@ -139,6 +139,15 @@ class Cherry_Testimonials_Shortcode extends Cherry_Testimonials_Data {
 							'name'    => __( 'Avatar size', 'su' ),
 							'desc'    => __( 'Avatar size (in pixels)', 'su' )
 						),
+						// 'template' => array(
+						// 	'type'   => 'select',
+						// 	'values' => array(
+						// 		'default.tmpl' => 'default.tmpl',
+						// 	),
+						// 	'default' => 'default.tmpl',
+						// 	'name'    => __( 'Template', 'su' ),
+						// 	'desc'    => __( 'Shortcode template', 'su' ),
+						// ),
 						'custom_class' => array(
 							'default' => '',
 							'name'    => __( 'Class', 'su' ),
